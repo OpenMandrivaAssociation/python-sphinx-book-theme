@@ -17,6 +17,7 @@ BuildSystem:	python
 BuildArch:	noarch
 
 %global node_version %(node --version |sed -e 's,^v,,')
+%global pdst %(rpm -q --qf '%%{VERSION}' python-pydata-sphinx-theme)
 
 %description
 A clean book theme for scientific explanations and documentation with Sphinx
@@ -24,6 +25,7 @@ A clean book theme for scientific explanations and documentation with Sphinx
 %prep
 %autosetup -p1 -a1 -n sphinx_book_theme-%{version}
 sed -i -e 's,^node-version =.*,node-version = "%{node_version}",' pyproject.toml
+sed -i -e 's,pydata-sphinx-theme==,pydata-sphinx-theme>=,' pyproject.toml PKG-INFO
 
 %build -p
 export YARN_CACHE_FOLDER="$(pwd)/.package-cache"
